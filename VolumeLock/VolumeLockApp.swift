@@ -19,9 +19,15 @@ struct VolumeLockApp: App {
         self.repository = MainRepository(soundManager: soundManager, brightnessManager: brightnessManager)
     }
 
+    @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
+
     var body: some Scene {
         WindowGroup {
-            MainView(viewModel: MainViewModel(repository: repository))
+            if hasCompletedOnboarding {
+                MainView(viewModel: MainViewModel(repository: repository))
+            } else {
+                OnboardingView()
+            }
         }
     }
 }

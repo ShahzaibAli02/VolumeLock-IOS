@@ -130,7 +130,7 @@ class MainViewModel: ObservableObject {
         if isStarted {
             if abs(Float(brightness) - newBrightness) > 0.001 {
                 print("MainViewModel: Brightness changed to \(newBrightness) while locked. Reverting to \(brightness)")
-                repository.setBrightness(Float(brightness))
+            repository.setBrightness(Float(brightness))
             }
         } else {
             self.brightness = Double(newBrightness)
