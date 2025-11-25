@@ -8,23 +8,26 @@
 import Foundation
 import Combine
 import UIKit
+import SwiftUI
 
 enum LockDuration: String, CaseIterable, Identifiable {
+    case twoMinutes = "2 Minutes"
+    case fiveMinutes = "5 Minutes"
     case oneHour = "1 Hour"
     case twoHours = "2 Hours"
-    case threeHours = "3 Hours"
-    case fourHours = "4 Hours"
     case fiveHours = "5 Hours"
+    case never = "Never"
     
     var id: String { self.rawValue }
     
     var timeInterval: TimeInterval {
         switch self {
+        case .twoMinutes: return 120
+        case .fiveMinutes: return 300
         case .oneHour: return 3600
         case .twoHours: return 7200
-        case .threeHours: return 10800
-        case .fourHours: return 14400
         case .fiveHours: return 18000
+        case .never: return 31536000 // 1 year, effectively never
         }
     }
 }
@@ -33,8 +36,9 @@ class MainViewModel: ObservableObject {
     @Published var volume: Double = 0.5
     @Published var brightness: Double = 0.5
     @Published var isStarted: Bool = false
-    @Published var lockDuration: LockDuration = .threeHours
+    @Published var lockDuration: LockDuration = .twoMinutes
     @Published var remainingTime: TimeInterval = 0
+    @AppStorage("isPremiumUser") var isPremiumUser: Bool = false
     
     private let repository: MainRepository
     private var timer: AnyCancellable?

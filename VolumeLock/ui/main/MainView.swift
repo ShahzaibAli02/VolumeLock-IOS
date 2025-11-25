@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
+    @State private var showDurationSheet = false
+    @State private var showSettingsSheet = false
     
     var body: some View {
         ZStack {
@@ -20,6 +22,26 @@ struct MainView: View {
             )
             .ignoresSafeArea()
             
+            // Settings Button Overlay
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        showSettingsSheet = true
+                    }) {
+                        Image(systemName: "gearshape.fill")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.black.opacity(0.2))
+                            .clipShape(Circle())
+                    }
+                    .padding(.trailing, 20)
+                    .padding(.top, 50) // Adjust for safe area
+                }
+                Spacer()
+            }
+            // Main Content
             VStack(spacing: 30) {
                 Spacer()
                 
@@ -57,15 +79,9 @@ struct MainView: View {
                     
                     // Lock Duration
                     ControlSection(title: "Lock Duration", icon: "", valueText: "") {
-                        Menu {
-                            ForEach(LockDuration.allCases) { duration in
-                                Button(action: {
-                                    viewModel.lockDuration = duration
-                                }) {
-                                    Text(duration.rawValue)
-                                }
-                            }
-                        } label: {
+                        Button(action: {
+                            showDurationSheet = true
+                        }) {
                             HStack {
                                 Text(viewModel.lockDuration.rawValue)
                                     .foregroundColor(.black.opacity(0.7))
@@ -82,6 +98,12 @@ struct MainView: View {
                 .padding(.horizontal, 30)
                 .padding(.bottom, 50)
             }
+        }
+        .sheet(isPresented: $showDurationSheet) {
+            LockDurationSheet(viewModel: viewModel)
+        }
+        .sheet(isPresented: $showSettingsSheet) {
+            SettingsSheet(viewModel: viewModel)
         }
     }
 }
