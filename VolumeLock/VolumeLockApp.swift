@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import RevenueCat
 @main
 struct VolumeLockApp: App {
     // Keep strong references to services if needed, but here ViewModel holds them.
@@ -17,6 +17,7 @@ struct VolumeLockApp: App {
     
     init() {
         self.repository = MainRepository(soundManager: soundManager, brightnessManager: brightnessManager)
+        Purchases.configure(withAPIKey: "test_eyjJlseGtdGTErXtgAplnwYopAO")
     }
 
     @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
@@ -24,6 +25,7 @@ struct VolumeLockApp: App {
     var body: some Scene {
         WindowGroup {
             if hasCompletedOnboarding {
+                
                 MainView(viewModel: MainViewModel(repository: repository))
             } else {
                 OnboardingView()

@@ -4,12 +4,12 @@ import MessageUI
 struct SettingsSheet: View {
     @ObservedObject var viewModel: MainViewModel
     @Environment(\.presentationMode) var presentationMode
-    
     @State private var showTerms = false
     @State private var showPrivacy = false
     @State private var showMailView = false
     @State private var mailResult: Result<MFMailComposeResult, Error>? = nil
     
+    var onBuyPremium : () -> Void
     // Dummy Links
     let rateAppLink = "https://apps.apple.com/app/id123456789"
     let termsLink = "https://www.google.com" // Placeholder
@@ -27,8 +27,7 @@ struct SettingsSheet: View {
                         if !viewModel.isPremiumUser {
                             Section {
                                 Button(action: {
-                                    // Upgrade action
-                                    print("Upgrade tapped from Settings")
+                                    onBuyPremium()
                                 }) {
                                     HStack {
                                         Image(systemName: "crown.fill")

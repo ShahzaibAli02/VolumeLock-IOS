@@ -10,6 +10,24 @@ import Combine
 import UIKit
 import SwiftUI
 
+
+struct Alert {
+
+    var isError : Bool = false
+    var title : String = ""
+    var message : String = ""
+    var buttonText : String = "Ok"
+    mutating func success(title : String, message : String){
+        isError = false
+        self.title = title
+        self.message = message
+    }
+    mutating func error(title : String, message : String){
+        isError = true
+        self.title = title
+        self.message = message
+    }
+}
 enum LockDuration: String, CaseIterable, Identifiable {
     case twoMinutes = "2 Minutes"
     case fiveMinutes = "5 Minutes"
@@ -38,6 +56,8 @@ class MainViewModel: ObservableObject {
     @Published var isStarted: Bool = false
     @Published var lockDuration: LockDuration = .twoMinutes
     @Published var remainingTime: TimeInterval = 0
+    @Published var alert : Alert = Alert()
+    @Published var showAlert : Bool = false
     @AppStorage("isPremiumUser") var isPremiumUser: Bool = false
     
     private let repository: MainRepository

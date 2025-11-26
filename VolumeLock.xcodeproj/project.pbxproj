@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5E2C5F152ED6B0B2003DE92A /* RevenueCat in Frameworks */ = {isa = PBXBuildFile; productRef = 5E2C5F142ED6B0B2003DE92A /* RevenueCat */; };
+		5E2C5F1C2ED6B4F1003DE92A /* RevenueCatUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5E2C5F1B2ED6B4F1003DE92A /* RevenueCatUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		5EF7B6CA2ED23CAE00947463 /* VolumeLock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VolumeLock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,16 +28,26 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5E2C5F1C2ED6B4F1003DE92A /* RevenueCatUI in Frameworks */,
+				5E2C5F152ED6B0B2003DE92A /* RevenueCat in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E2C5F1A2ED6B4F1003DE92A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5EF7B6C12ED23CAE00947463 = {
 			isa = PBXGroup;
 			children = (
 				5EF7B6CC2ED23CAE00947463 /* VolumeLock */,
+				5E2C5F1A2ED6B4F1003DE92A /* Frameworks */,
 				5EF7B6CB2ED23CAE00947463 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -65,6 +80,8 @@
 			);
 			name = VolumeLock;
 			packageProductDependencies = (
+				5E2C5F142ED6B0B2003DE92A /* RevenueCat */,
+				5E2C5F1B2ED6B4F1003DE92A /* RevenueCatUI */,
 			);
 			productName = VolumeLock;
 			productReference = 5EF7B6CA2ED23CAE00947463 /* VolumeLock.app */;
@@ -94,6 +111,9 @@
 			);
 			mainGroup = 5EF7B6C12ED23CAE00947463;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				5E2C5F112ED6B0B2003DE92A /* XCRemoteSwiftPackageReference "purchases-ios-spm" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 5EF7B6CB2ED23CAE00947463 /* Products */;
 			projectDirPath = "";
@@ -338,6 +358,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		5E2C5F112ED6B0B2003DE92A /* XCRemoteSwiftPackageReference "purchases-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RevenueCat/purchases-ios-spm.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.49.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5E2C5F142ED6B0B2003DE92A /* RevenueCat */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E2C5F112ED6B0B2003DE92A /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCat;
+		};
+		5E2C5F1B2ED6B4F1003DE92A /* RevenueCatUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E2C5F112ED6B0B2003DE92A /* XCRemoteSwiftPackageReference "purchases-ios-spm" */;
+			productName = RevenueCatUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 5EF7B6C22ED23CAE00947463 /* Project object */;
 }

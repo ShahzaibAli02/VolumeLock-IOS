@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-
+import RevenueCatUI
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
     @State private var showDurationSheet = false
     @State private var showSettingsSheet = false
-    
+    @State private var displayPaywall = false
     var body: some View {
         ZStack {
             // Background Gradient
@@ -99,12 +99,51 @@ struct MainView: View {
                 .padding(.bottom, 50)
             }
         }
+        .sheet(isPresented: $displayPaywall) {
+            PaywallView().onPurchaseCompleted { _ in
+                showPurchaseSuccess()
+            }.onPurchaseFailure{ err in
+                showPurchaseFailed(err:err)
+            }
+        }
+        .onAppear{
+            viewModel.isPremiumUser = false
+        }
         .sheet(isPresented: $showDurationSheet) {
             LockDurationSheet(viewModel: viewModel)
         }
+        .alert(
+            viewModel.alert.title,
+            isPresented: $viewModel.showAlert,
+            actions: {
+                Button(
+                    viewModel.alert.buttonText,
+                    role: viewModel.alert.isError ? .cancel
+                    : .confirm) {
+                        
+                    }
+            },
+            message: {
+                Text(viewModel.alert.message)
+            })
         .sheet(isPresented: $showSettingsSheet) {
-            SettingsSheet(viewModel: viewModel)
+            SettingsSheet(viewModel: viewModel,onBuyPremium: {
+                self.showSettingsSheet = false
+                displayPaywall = true
+            })
         }
+    }
+    
+    func showPurchaseFailed(err: NSError){
+        self.displayPaywall = false
+        viewModel.showAlert = true
+        viewModel.alert.error( title: "Purchase failed", message: err.localizedDescription  )
+    }
+    func showPurchaseSuccess(){
+        viewModel.isPremiumUser = true
+        displayPaywall = false
+        viewModel.showAlert = true
+        viewModel.alert .success(title: "Purchase successful", message: "Purchase successful! Enjoy your premium benefits.")
     }
 }
 
