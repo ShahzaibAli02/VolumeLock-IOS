@@ -1,8 +1,10 @@
 import SwiftUI
 
 struct LockDurationSheet: View {
+    let isPremiumUser : Bool
     @ObservedObject var viewModel: MainViewModel
     @Environment(\.presentationMode) var presentationMode
+    var onBuyPremium : () -> Void
     
     var body: some View {
         ZStack {
@@ -33,12 +35,15 @@ struct LockDurationSheet: View {
                 ScrollView {
                     VStack(spacing: 0) {
                         ForEach(Array(LockDuration.allCases.enumerated()), id: \.element) { index, duration in
-                            let isLocked = index >= 2 && !viewModel.isPremiumUser
+                            let isLocked = index >= 2 && !isPremiumUser
                             let isSelected = viewModel.lockDuration == duration
                             
                             Button(action: {
                                 if !isLocked {
                                     viewModel.lockDuration = duration
+                                }
+                                else {
+                                    onBuyPremium()
                                 }
                             }) {
                                 HStack {
@@ -72,7 +77,6 @@ struct LockDurationSheet: View {
                                 .padding()
                                 .background(Color.white.opacity(0.05))
                             }
-                            .disabled(isLocked)
                             
                             if index < LockDuration.allCases.count - 1 {
                                 Divider()
@@ -87,8 +91,9 @@ struct LockDurationSheet: View {
                 Spacer()
                 
                 // Upgrade Button
-                if !viewModel.isPremiumUser {
+                if !isPremiumUser {
                     Button(action: {
+                        onBuyPremium()
                         // Action to upgrade
                         print("Upgrade tapped")
                         // viewModel.isPremiumUser = true // Uncomment to test
@@ -123,6 +128,10 @@ struct LockDurationSheet_Previews: PreviewProvider {
         let brightnessManager = BrightnessManagerImpl()
         let repository = MainRepository(soundManager: soundManager, brightnessManager: brightnessManager)
         let viewModel = MainViewModel(repository: repository)
-        LockDurationSheet(viewModel: viewModel)
+        LockDurationSheet(
+            isPremiumUser: false,
+            viewModel: viewModel,
+            onBuyPremium: {
+            })
     }
 }

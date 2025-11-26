@@ -9,6 +9,7 @@ import SwiftUI
 import RevenueCatUI
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
+    @StateObject var subscriptionMaanger : SubscriptionManager = SubscriptionManager.shared
     @State private var showDurationSheet = false
     @State private var showSettingsSheet = false
     @State private var displayPaywall = false
@@ -50,6 +51,13 @@ struct MainView: View {
                     isStarted: viewModel.isStarted,
                     timerText: viewModel.formattedRemainingTime
                 ) {
+                    if(!viewModel.isStarted){
+                        viewModel.alert.success(title: "Do Not Close the App", message: "For volume control to work correctly, keep the app running in the background.")
+                        viewModel.showAlert{
+                            viewModel.toggleStart()
+                        }
+                        return
+                    }
                     viewModel.toggleStart()
                 }
                 .padding(.top, 40)
@@ -102,32 +110,38 @@ struct MainView: View {
         .sheet(isPresented: $displayPaywall) {
             PaywallView().onPurchaseCompleted { _ in
                 showPurchaseSuccess()
-            }.onPurchaseFailure{ err in
+            }
+            .onRestoreCompleted({ _ in
+                showPurchaseSuccess()
+            })
+            .onPurchaseFailure{ err in
                 showPurchaseFailed(err:err)
             }
         }
-        .onAppear{
-            viewModel.isPremiumUser = false
-        }
         .sheet(isPresented: $showDurationSheet) {
-            LockDurationSheet(viewModel: viewModel)
+            LockDurationSheet(isPremiumUser: subscriptionMaanger.isPremiumUser, viewModel: viewModel,onBuyPremium: {
+                showDurationSheet = false
+                displayPaywall = true
+            })
         }
         .alert(
             viewModel.alert.title,
-            isPresented: $viewModel.showAlert,
+            isPresented: Binding(get: {
+                viewModel.isAlertVisible
+            }, set: { value in
+                viewModel.hideAlert()
+            }),
             actions: {
-                Button(
-                    viewModel.alert.buttonText,
-                    role: viewModel.alert.isError ? .cancel
-                    : .confirm) {
-                        
+                Button(viewModel.alert.buttonText, role: viewModel.alert.isError ? .cancel : .confirm) {
+                    viewModel.onClickAlert()
+                    viewModel.hideAlert()
                     }
             },
             message: {
                 Text(viewModel.alert.message)
             })
         .sheet(isPresented: $showSettingsSheet) {
-            SettingsSheet(viewModel: viewModel,onBuyPremium: {
+            SettingsSheet(isPremiumUser: subscriptionMaanger.isPremiumUser, viewModel: viewModel,onBuyPremium: {
                 self.showSettingsSheet = false
                 displayPaywall = true
             })
@@ -136,13 +150,13 @@ struct MainView: View {
     
     func showPurchaseFailed(err: NSError){
         self.displayPaywall = false
-        viewModel.showAlert = true
+        viewModel.showAlert()
         viewModel.alert.error( title: "Purchase failed", message: err.localizedDescription  )
     }
     func showPurchaseSuccess(){
-        viewModel.isPremiumUser = true
+        subscriptionMaanger.isPremiumUser = true
         displayPaywall = false
-        viewModel.showAlert = true
+        viewModel.showAlert()
         viewModel.alert .success(title: "Purchase successful", message: "Purchase successful! Enjoy your premium benefits.")
     }
 }

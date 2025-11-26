@@ -57,9 +57,11 @@ class MainViewModel: ObservableObject {
     @Published var lockDuration: LockDuration = .twoMinutes
     @Published var remainingTime: TimeInterval = 0
     @Published var alert : Alert = Alert()
-    @Published var showAlert : Bool = false
-    @AppStorage("isPremiumUser") var isPremiumUser: Bool = false
+    @Published private(set) var isAlertVisible : Bool = false
+var onClickAlert : () -> Void = {}
     
+    
+   
     private let repository: MainRepository
     private var timer: AnyCancellable?
     
@@ -88,7 +90,13 @@ class MainViewModel: ObservableObject {
             }
         }
     }
-    
+    func showAlert(_ onClick : @escaping () -> Void = {}){
+        isAlertVisible = true
+        self.onClickAlert = onClick
+    }
+    func hideAlert() {
+        self.isAlertVisible = false
+    }
     func increaseVolume() {
         volume = min(1.0, volume + 0.1)
         repository.setVolume(Float(volume))

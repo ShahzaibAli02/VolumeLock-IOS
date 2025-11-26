@@ -2,6 +2,7 @@ import SwiftUI
 import MessageUI
 
 struct SettingsSheet: View {
+    let isPremiumUser : Bool
     @ObservedObject var viewModel: MainViewModel
     @Environment(\.presentationMode) var presentationMode
     @State private var showTerms = false
@@ -12,8 +13,8 @@ struct SettingsSheet: View {
     var onBuyPremium : () -> Void
     // Dummy Links
     let rateAppLink = "https://apps.apple.com/app/id123456789"
-    let termsLink = "https://www.google.com" // Placeholder
-    let privacyLink = "https://www.google.com" // Placeholder
+    let termsLink = "https://volumelock.blogspot.com/2025/11/terms-of-use-volume-lock-and-limiter.html" // Placeholder
+    let privacyLink = "https://volumelock.blogspot.com/2025/11/privacy-policy-volume-lock-and-limiter.html" // Placeholder
     let contactEmail = "alishahzaib02@gmail.com"
     
     var body: some View {
@@ -24,7 +25,7 @@ struct SettingsSheet: View {
                 VStack {
                     List {
                         // Premium Section
-                        if !viewModel.isPremiumUser {
+                        if !isPremiumUser {
                             Section {
                                 Button(action: {
                                     onBuyPremium()

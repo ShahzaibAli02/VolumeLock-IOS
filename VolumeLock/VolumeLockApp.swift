@@ -15,9 +15,10 @@ struct VolumeLockApp: App {
     private let brightnessManager = BrightnessManagerImpl()
     private var repository: MainRepository
     
+
     init() {
         self.repository = MainRepository(soundManager: soundManager, brightnessManager: brightnessManager)
-        Purchases.configure(withAPIKey: "test_eyjJlseGtdGTErXtgAplnwYopAO")
+        SubscriptionManager.shared.refreshStatus()
     }
 
     @AppStorage("hasCompletedOnboarding") var hasCompletedOnboarding: Bool = false
@@ -25,11 +26,13 @@ struct VolumeLockApp: App {
     var body: some Scene {
         WindowGroup {
             if hasCompletedOnboarding {
-                
                 MainView(viewModel: MainViewModel(repository: repository))
             } else {
                 OnboardingView()
             }
         }
     }
+    
+
+
 }
