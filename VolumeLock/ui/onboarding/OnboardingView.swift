@@ -70,19 +70,33 @@ struct OnboardingSlideView: View {
                 .cornerRadius(20) // Rounded corners
                 .padding(.horizontal)
             
+            
             Text(slide.title)
-                .font(.title)
-                .fontWeight(.bold)
+                .font(.system(size: 28.sp, weight: .bold))
                 .multilineTextAlignment(.center)
                 .padding(.top, 20)
                 .padding(.horizontal, 10)
+                .padding(.top,20.sp)
             
-            Text(slide.text)
-                .font(.body)
-                .frame(maxWidth: .infinity)
-                .multilineTextAlignment(.leading)
-                .foregroundColor(.secondary)
-                .padding(.horizontal, 30)
+            let lines = slide.text.split(separator: "\n").map(String.init)
+
+            VStack(alignment: .leading, spacing: 20) {
+                ForEach(lines, id: \.self) { line in
+                    HStack(alignment: .top, spacing: 10) {
+                        Circle()
+                            .fill(Color.secondary)
+                            .frame(width: 15.sp, height: 15.sp)
+                            .padding(.top, 6) // align dot with text
+
+                        Text(line)
+                            .font(.system(size: 21.sp))
+                            .foregroundColor(.secondary)
+                            .multilineTextAlignment(.leading)
+                    }
+                }
+            }
+            .padding(.horizontal, 30)
+            .padding(.top, 20.sp)
             
             Spacer()
         }

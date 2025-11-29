@@ -77,13 +77,13 @@ struct MainView: View {
                     }
                     
                     // Brightness Control
-                    ControlSection(title: "Screen Brightness", icon: "sun.max.fill", valueText: "\(Int(viewModel.brightness * 100))%") {
-                        Slider(value: Binding(
-                            get: { viewModel.brightness },
-                            set: { viewModel.setBrightness($0) }
-                        ), in: 0...1)
-                        .tint(AppColors.controlTint)
-                    }
+//                    ControlSection(title: "Screen Brightness", icon: "sun.max.fill", valueText: "\(Int(viewModel.brightness * 100))%") {
+//                        Slider(value: Binding(
+//                            get: { viewModel.brightness },
+//                            set: { viewModel.setBrightness($0) }
+//                        ), in: 0...1)
+//                        .tint(AppColors.controlTint)
+//                    }
                     
                     // Lock Duration
                     ControlSection(title: "Lock Duration", icon: "", valueText: "") {
@@ -104,7 +104,13 @@ struct MainView: View {
                     }
                 }
                 .padding(.horizontal, 30)
-                .padding(.bottom, 50)
+                
+                Text("For volume control to work correctly, keep the app running in the background.")
+                    .font(.caption)
+                    .foregroundColor(.red.opacity(0.8))
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 30)
+                    .padding(.bottom, 30)
             }
         }
         .sheet(isPresented: $displayPaywall) {

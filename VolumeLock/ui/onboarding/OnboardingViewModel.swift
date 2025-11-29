@@ -17,17 +17,17 @@ class OnboardingViewModel: ObservableObject {
         OnboardingSlide(
             image: "onboarding_1",
             title: "Protect Your Child’s Hearing",
-            text: "● Lock the volume so your kids can’t play their phone too loud.\n\n● Works across all apps, videos, games, and music.\n\n● Keep a safe and consistent volume level effortlessly."
+            text: "Lock the volume so your kids can’t play their phone too loud.\nWorks across all apps, videos, games, and music.\nKeep a safe and consistent volume level effortlessly."
         ),
         OnboardingSlide(
             image: "onboarding_2",
             title: "Set Your Safe Volume",
-            text: "● Use the slider to select the maximum volume.\n\n● Pick how long you want the volume locked.\n\n● Your settings stay active while the app is in the background. Do not close the app."
+            text: "Use the slider to select the maximum volume.\nPick how long you want the volume locked.\nYour settings stay active while the app is in the background. Do not close the app."
         ),
         OnboardingSlide(
-            image: "onboarding_3",
+            image: "onboarding_4",
             title: "Simple. Safe. Smart.",
-            text: "\n● Protect your child’s ears from loud sounds.\n\n● Easy to adjust whenever needed. Peace of mind for parents, fun for kids."
+            text: "Protect your child’s ears from loud sounds.\nEasy to adjust whenever needed. Peace of mind for parents, fun for kids."
         )
     ]
     

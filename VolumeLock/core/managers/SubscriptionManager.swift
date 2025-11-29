@@ -16,7 +16,8 @@ class SubscriptionManager: ObservableObject {
     static let shared = SubscriptionManager()
 
     private init() {
-        Purchases.configure(withAPIKey: "test_eyjJlseGtdGTErXtgAplnwYopAO")
+//        Purchases.configure(withAPIKey: "test_eyjJlseGtdGTErXtgAplnwYopAO")
+        Purchases.configure(withAPIKey: "appl_oRVzZmEXgHognioplTrepDvSPry")
     }
 
     func refreshStatus() {
